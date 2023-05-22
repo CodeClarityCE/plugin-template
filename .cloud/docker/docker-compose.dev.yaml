@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  template:
+    # For dev we keep the golang container and install devtools
+    build:
+      context: ../..
+      dockerfile: .cloud/docker/Dockerfile
+      target: template-dev
+    image: ceherzog/template-dev:latest
+    volumes:
+      - ../..:/usr/srv/template:cached
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    ports:
+      - target: 5672
+        published: ${AMQP_PORT:-5672}
+        protocol: tcp
+        mode: host
+      - target: 15672
+        published: ${AMQP_PORT_2:-15672}
+        protocol: tcp
+        mode: host

@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  tempalte:
+    build:
+      context: ../..
+      dockerfile: .cloud/docker/Dockerfile
+      target: tempalte
+    image: ceherzog/tempalte:latest
+    restart: always
+    environment:
+      CODECLARITY_COMPONENT: ${CODECLARITY_COMPONENT:-TEMPLATE}
+      RABBITMQ_HOST: ${RABBITMQ_HOST:-amqp://guest:guest@rabbitmq:5672/}
+      RESULTS_DB_HOST: ${RESULTS_DB_HOST:-http://results_db:8529}
+
+  rabbitmq:
+    image: rabbitmq:3.11
+    expose:
+      - ${AMQP_PORT:-5672}
