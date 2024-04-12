@@ -1,6 +1,12 @@
-go 1.20
+go 1.22
+
+toolchain go1.22.0
 
 use (
-  	./.
-	./common-types
+	.
+	../../utilities/amqp-helper
+	../../utilities/db-helper
+	../../utilities/node-semver
+	../../utilities/spdx-license-matcher
+	../../utilities/types
 )

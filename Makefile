@@ -16,11 +16,17 @@ build: ## Builds the Docker images
 build-dev: ## Builds the Docker images
 	@$(DOCKER_COMP) -f .cloud/docker/docker-compose.yaml -f .cloud/docker/docker-compose.dev.yaml build
 
+build-debug: ## Builds the Docker images
+	@$(DOCKER_COMP) -f .cloud/docker/docker-compose.yaml -f .cloud/docker/docker-compose.debug.yaml build
+
 up: ## Starts the Docker images
 	@$(DOCKER_COMP) -f .cloud/docker/docker-compose.yaml up -d
 
 up-dev: ## Starts the Docker images
 	@$(DOCKER_COMP) -f .cloud/docker/docker-compose.yaml -f .cloud/docker/docker-compose.dev.yaml up -d
+
+up-debug: ## Starts the Docker images
+	@$(DOCKER_COMP) -f .cloud/docker/docker-compose.yaml -f .cloud/docker/docker-compose.debug.yaml up -d
 
 down: ## Stops the Docker images
 	@$(DOCKER_COMP) -f .cloud/docker/docker-compose.yaml down
@@ -28,5 +34,24 @@ down: ## Stops the Docker images
 save: ## Save image to disk
 	docker save ceherzog/dispatcher -o dispatcher.tar
 
-tests: ## Start test and benchmark
-	go test -bench=.
+test: ## Start test and benchmark
+	@echo "------ Run test -----"
+	go test ./... -coverprofile=./tests/results/coverage.out
+	@echo "\n------ Display coverage -----"
+	go tool cover -html=./tests/results/coverage.out
+	@echo "\n------ Start benchmark -----"
+	go test -bench=Create ./tests -run=^# -benchmem -benchtime=10s -cpuprofile=./tests/results/cpu.out -memprofile=./tests/results/mem.out
+	go tool pprof -http=:8080 ./tests/results/cpu.out
+	go tool pprof -http=:8080 ./tests/results/mem.out
+
+
+## —— Jenkins —————————————————————————————————————————————————————————————————
+build-jenkins: ## Build Jenkins
+	@-docker buildx create --name plugin --use --bootstrap
+	@docker buildx build \
+	-f ../../.cloud/docker/Dockerfile \
+	--platform linux/amd64,linux/arm64 \
+	--target plugin \
+	--build-arg PLUGINNAME=js-license \
+	--tag ceherzog/plugin-js-license:latest \
+	--push ../..
