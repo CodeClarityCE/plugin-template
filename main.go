@@ -3,13 +3,13 @@ package main
 import (
 	"log"
 
-	plugin "github.com/CodeClarityLU/plugin-plugin-name/src"
+	plugin "github.com/CodeClarityCE/plugin-NAME/src"
 
-	amqp_helper "github.com/CodeClarityLU/amqp-helper"
-	dbhelper "github.com/CodeClarityLU/dbhelper/helper"
-	types_amqp "github.com/CodeClarityLU/types/amqp"
-	types_analysis "github.com/CodeClarityLU/types/analysis"
-	types_plugin "github.com/CodeClarityLU/types/plugin"
+	amqp_helper "github.com/CodeClarityCE/utility-amqp-helper"
+	dbhelper "github.com/CodeClarityCE/utility-dbhelper/helper"
+	types_amqp "github.com/CodeClarityCE/utility-types/amqp"
+	types_analysis "github.com/CodeClarityCE/utility-types/analysis"
+	types_plugin "github.com/CodeClarityCE/utility-types/plugin"
 	"github.com/arangodb/go-driver"
 )
 

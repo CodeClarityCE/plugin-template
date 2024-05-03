@@ -1,7 +1,7 @@
 {
-    "name": "$plugin-name",
+    "name": "template-plugin",
     "version": "v0.0.0",
-    "image_name": "ceherzog/plugin-$plugin-name",
+    "image_name": "ceherzog/plugin-template-plugin",
     "image_version": "0.0.0",
     "depends_on": [],
     "description": "A CodeClarity plugin",

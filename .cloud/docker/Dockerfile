@@ -1,36 +1,24 @@
+# syntax=docker/dockerfile:1
+
 ARG USERNAME=codeclarity
 
 # BUILD IMAGE
-FROM golang:1.20 AS template-build
-
-COPY .. /usr/srv/template
-
-RUN ls /usr/srv/template
-
-WORKDIR /usr/srv/template
-
-ENV GOOS=linux GOARCH=amd64
-
-RUN [ "go", "build", "-v" ]
-
-
-# DEV IMAGE
-FROM template-build AS template-dev
-
-COPY --from=template-build /usr/srv/template/template /
-
-CMD /template
-
+FROM golang:1.22.2-alpine AS plugin-build
+COPY . /codeclarity
+WORKDIR /codeclarity
+ADD .cloud/docker/config/.netrc /root/.netrc
+RUN apk add git
+RUN rm go.work
+RUN rm go.work.sum
+RUN [ "go", "build", "-o", "plugin" ]
 
 # PRODUCTION IMAGE
-FROM alpine AS template
+FROM alpine:3.19.1 AS plugin
 ARG USERNAME
-
 RUN adduser -D ${USERNAME}
 USER ${USERNAME}
+WORKDIR /home/${USERNAME}/codeclarity
+COPY --from=plugin-build --chown=codeclarity:codeclarity /codeclarity/plugin .
+COPY --from=plugin-build --chown=codeclarity:codeclarity /codeclarity/config.json .
 
-WORKDIR /home/${USERNAME}
-
-COPY --from=template-build --chown=codeclarity:codeclarity /usr/srv/template/template .
-
-ENTRYPOINT [ "./template" ]
+ENTRYPOINT [ "./plugin" ]

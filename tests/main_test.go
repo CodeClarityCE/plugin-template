@@ -4,8 +4,8 @@ import (
 	"log"
 	"testing"
 
-	dbhelper "github.com/CodeClarityLU/dbhelper/helper"
-	plugin "github.com/CodeClarityLU/plugin-plugin-name/src"
+	plugin "github.com/CodeClarityCE/plugin-NAME/src"
+	dbhelper "github.com/CodeClarityCE/utility-dbhelper/helper"
 	"github.com/stretchr/testify/assert"
 )
 

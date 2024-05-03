@@ -1,19 +1,68 @@
-version: "3"
-
 services:
-  tempalte:
+  plugin-template-plugin:
     build:
       context: ../..
       dockerfile: .cloud/docker/Dockerfile
-      target: tempalte
-    image: ceherzog/tempalte:latest
+      target: plugin
+      args:
+        - PLUGINNAME=template-plugin
+    image: ceherzog/template-plugin:latest
     restart: always
+    depends_on:
+      - rabbitmq
+      - results_db
     environment:
-      CODECLARITY_COMPONENT: ${CODECLARITY_COMPONENT:-TEMPLATE}
-      RABBITMQ_HOST: ${RABBITMQ_HOST:-amqp://guest:guest@rabbitmq:5672/}
-      RESULTS_DB_HOST: ${RESULTS_DB_HOST:-http://results_db:8529}
+      AMQP_PROTOCOL: ${AMQP_PROTOCOL:-amqp}
+      AMQP_HOST: ${AMQP_HOST:-rabbitmq}
+      AMQP_PORT: ${AMQP_PORT:-5672}
+      AMQP_USER: ${AMQP_USER:-guest}
+      AMQP_PASSWORD: ${AMQP_PASSWORD:-guest}
+      ARANGO_DB_USER: ${ARANGO_DB_USER:-root}
+      ARANGO_DB_PASSWORD: ${ARANGO_DB_PASSWORD:-!ChangeMe!}
+      ARANGO_DB_HOST: ${ARANGO_DB_HOST:-results_db}
+      ARANGO_DB_PORT: ${ARANGO_DB_PORT:-8529}
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 500M
 
   rabbitmq:
-    image: rabbitmq:3.11
-    expose:
-      - ${AMQP_PORT:-5672}
+    restart: always
+    image: rabbitmq:management
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 500M
+
+  results_db:
+    restart: always
+    image: arangodb
+    environment:
+      ARANGO_ROOT_PASSWORD: ${ARANGO_ROOT_PASSWORD:-!ChangeMe!}
+      ARANGODB_OVERRIDE_DETECTED_TOTAL_MEMORY: 8G
+      ARANGODB_OVERRIDE_DETECTED_NUMBER_OF_CORES: 4
+    volumes:
+      - results_db_data_container:/var/lib/arangodb3
+      - results_db_apps_data_container:/var/lib/arangodb3-apps
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 16G
+        reservations:
+          cpus: '4'
+          memory: 8G
+
+volumes:
+  results_db_data_container:
+  results_db_apps_data_container:
+
+  projects:
