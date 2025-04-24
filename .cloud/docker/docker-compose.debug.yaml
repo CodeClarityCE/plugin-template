@@ -1,25 +1,8 @@
 services:
-  plugin-template-plugin:
+  plugin-template:
+    # For dev we keep the golang container and install devtools
     build:
-      context: ../../../..
-      dockerfile: .cloud/docker/Dockerfile
-      target: plugin-debug
-    image: ceherzog/template-plugin:latest
+      target: plugin-template
+    image: codeclarityce/template-debug:latest
     ports:
       - 40000:40000
-
-  rabbitmq:
-    image: rabbitmq:management
-    ports:
-      - target: 5672
-        published: ${AMQP_PORT:-5672}
-        protocol: tcp
-        mode: host
-      - target: 15672
-        published: ${AMQP_PORT_2:-15672}
-        protocol: tcp
-        mode: host
-  
-  results_db:
-    ports:
-      - 8529:8529

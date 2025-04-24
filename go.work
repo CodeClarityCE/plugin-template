@@ -1,4 +1,4 @@
-go 1.22
+go 1.23.0
 
 use (
 	.
@@ -6,6 +6,5 @@ use (
 	../../utilities/amqp-helper
 	../../utilities/db-helper
 	../../utilities/node-semver
-	../../utilities/spdx-license-matcher
 	../../utilities/types
 )
