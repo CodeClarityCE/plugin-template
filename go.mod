@@ -1,4 +1,4 @@
-module github.com/CodeClarityCE/template-plugin
+module github.com/CodeClarityCE/plugin-template
 
 go 1.23.0
 

@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	output "github.com/CodeClarityCE/template-plugin/src/types"
+	output "github.com/CodeClarityCE/plugin-template/src/types"
 	amqp_helper "github.com/CodeClarityCE/utility-amqp-helper"
 	dbhelper "github.com/CodeClarityCE/utility-dbhelper/helper"
 	types_amqp "github.com/CodeClarityCE/utility-types/amqp"

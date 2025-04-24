@@ -7,7 +7,7 @@ import (
 	"database/sql"
 	"os"
 
-	plugin "github.com/CodeClarityCE/template-plugin/src"
+	plugin "github.com/CodeClarityCE/plugin-template/src"
 	dbhelper "github.com/CodeClarityCE/utility-dbhelper/helper"
 	"github.com/stretchr/testify/assert"
 	"github.com/uptrace/bun"

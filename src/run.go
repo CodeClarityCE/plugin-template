@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
-	outputGenerator "github.com/CodeClarityCE/template-plugin/src/outputGenerator"
-	output "github.com/CodeClarityCE/template-plugin/src/types"
+	outputGenerator "github.com/CodeClarityCE/plugin-template/src/outputGenerator"
+	output "github.com/CodeClarityCE/plugin-template/src/types"
 	exceptionManager "github.com/CodeClarityCE/utility-types/exceptions"
 	"github.com/uptrace/bun"
 )

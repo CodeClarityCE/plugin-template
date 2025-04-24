@@ -3,7 +3,7 @@ package outputGenerator
 import (
 	"time"
 
-	types "github.com/CodeClarityCE/template-plugin/src/types"
+	types "github.com/CodeClarityCE/plugin-template/src/types"
 	codeclarity "github.com/CodeClarityCE/utility-types/codeclarity_db"
 	exceptionManager "github.com/CodeClarityCE/utility-types/exceptions"
 )
