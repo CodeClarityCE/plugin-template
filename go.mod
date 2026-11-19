@@ -1,6 +1,6 @@
 module github.com/CodeClarityCE/plugin-template
 
-go 1.26.0
+go 1.27.4
 
 require (
 	github.com/CodeClarityCE/utility-amqp-helper v0.0.1-alpha
